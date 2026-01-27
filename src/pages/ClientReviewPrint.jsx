@@ -71,8 +71,8 @@ export const ClientReviewPrint = forwardRef(({ clientData, espaces }, ref) => {
                 {/* Row Header */}
                 <div style={styles.rideauRowHeader}>
                   <span style={styles.rideauIndex}>#{idx + 1}</span>
-                  <span style={styles.rideauRef}>{rideau.ref_tissu}</span>
-                  <span style={styles.rideauAmpleur}>{rideau.ampleur}</span>
+                  <span style={styles.rideauRef}>Ref: {rideau.ref_tissu}</span>
+                  <span style={styles.rideauAmpleur}>Ampleur: {rideau.ampleur}</span>
                 </div>
 
                 {/* Row Content - 3 columns layout */}
@@ -138,16 +138,7 @@ export const ClientReviewPrint = forwardRef(({ clientData, espaces }, ref) => {
         </div>
       ))}
 
-      {/* FOOTER */}
-      <div style={styles.footer}>
-        <span>Bordeaux Production Rideaux</span>
-        <span style={styles.footerSep}>·</span>
-        <span>{new Date().toLocaleString("fr-FR")}</span>
-        <span style={styles.footerSep}>·</span>
-        <span>{espaces.length} espace{espaces.length > 1 ? "s" : ""}</span>
-        <span style={styles.footerSep}>·</span>
-        <span>{espaces.reduce((acc, e) => acc + e.rideaux.length, 0)} rideaux</span>
-      </div>
+     
     </div>
   );
 });
