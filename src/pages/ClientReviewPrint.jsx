@@ -9,126 +9,132 @@ export const ClientReviewPrint = forwardRef(({ clientData, espaces }, ref) => {
 
   return (
     <div ref={ref} style={styles.container}>
-      {/* HEADER */}
+      {/* COMPACT HEADER */}
       <div style={styles.header}>
-        <div style={styles.headerTop}>
+        <div style={styles.headerContent}>
           <div style={styles.brandSection}>
-            <img
-              src="https://crm.magicwalls.ma/wp-content/uploads/2024/11/somfy-logo.webp"
-              alt="Somfy"
-              style={styles.logo}
-              crossOrigin="anonymous"
-            />
             <div style={styles.brandInfo}>
               <div style={styles.brandName}>SOMFY</div>
               <div style={styles.brandTagline}>Bordeaux Production</div>
             </div>
           </div>
-          <div style={styles.docInfo}>
+          
+          <div style={styles.headerRight}>
             <div style={styles.docTitle}>FICHE DE PRODUCTION</div>
-            <div style={styles.docMeta}>{today} · Ref: FP-{new Date().getTime().toString().slice(-6)}</div>
+            <div style={styles.docMeta}>
+              {today} · Ref: FP-{new Date().getTime().toString().slice(-6)}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* CLIENT INFO */}
-      <div style={styles.section}>
-        <div style={styles.sectionTitle}>Informations client</div>
-        <div style={styles.clientGrid}>
-          <div style={styles.field}>
-            <span style={styles.fieldLabel}>Client</span>
-            <span style={styles.fieldValue}>{clientData.client_name}</span>
+      {/* COMPACT CLIENT INFO - Single Line */}
+      <div style={styles.clientSection}>
+        <div style={styles.clientRow}>
+          <div style={styles.clientField}>
+            <span style={styles.clientLabel}>Client:</span>
+            <span style={styles.clientValue}>{clientData.client_name}</span>
           </div>
-          <div style={styles.field}>
-            <span style={styles.fieldLabel}>Projet</span>
-            <span style={styles.fieldValue}>{clientData.projet_name}</span>
+          <div style={styles.clientField}>
+            <span style={styles.clientLabel}>Projet:</span>
+            <span style={styles.clientValue}>{clientData.projet_name}</span>
           </div>
-          <div style={styles.field}>
-            <span style={styles.fieldLabel}>Ville</span>
-            <span style={styles.fieldValue}>{clientData.ville}</span>
+          <div style={styles.clientField}>
+            <span style={styles.clientLabel}>Ville:</span>
+            <span style={styles.clientValue}>{clientData.ville}</span>
           </div>
-          <div style={styles.field}>
-            <span style={styles.fieldLabel}>Contact</span>
-            <span style={styles.fieldValue}>{clientData.contact_client}</span>
+          <div style={styles.clientField}>
+            <span style={styles.clientLabel}>Contact:</span>
+            <span style={styles.clientValue}>{clientData.contact_client}</span>
           </div>
         </div>
       </div>
 
-      {/* ESPACES */}
+      {/* ESPACES - EXPANDED */}
       {espaces.map((espace, index) => (
-        <div key={index} style={styles.section}>
-          {/* Espace Title */}
-          <div style={styles.espaceTitle}>
-            <span style={styles.espaceTitleText}>
-              {index + 1}. {espace.espace_name}
-            </span>
+        <div key={index} style={styles.espaceSection}>
+          {/* Espace Header */}
+          <div style={styles.espaceHeader}>
+            <div style={styles.espaceHeaderLeft}>
+              <span style={styles.espaceNumber}>{index + 1}</span>
+              <span style={styles.espaceName}>{espace.espace_name}</span>
+            </div>
             <span style={styles.espaceCount}>
               {espace.rideaux.length} rideau{espace.rideaux.length > 1 ? "x" : ""}
             </span>
           </div>
 
-          {/* Rideaux */}
-          {espace.rideaux.map((rideau, idx) => (
-            <div key={idx} style={styles.rideauCard}>
-              {/* Header */}
-              <div style={styles.rideauHeader}>
-                <span style={styles.rideauNumber}>{idx + 1}</span>
-                <span style={styles.rideauRef}>{rideau.ref_tissu}</span>
-                <span style={styles.rideauAmpleur}>{rideau.ampleur}</span>
-              </div>
+          {/* Rideaux Table */}
+          <div style={styles.rideauxTable}>
+            {espace.rideaux.map((rideau, idx) => (
+              <div key={idx} style={styles.rideauRow}>
+                {/* Row Header */}
+                <div style={styles.rideauRowHeader}>
+                  <span style={styles.rideauIndex}>#{idx + 1}</span>
+                  <span style={styles.rideauRef}>{rideau.ref_tissu}</span>
+                  <span style={styles.rideauAmpleur}>{rideau.ampleur}</span>
+                </div>
 
-              {/* Content */}
-              <div style={styles.rideauContent}>
-                <div style={styles.row}>
-                  <div style={styles.col}>
-                    <span style={styles.label}>Largeur</span>
-                    <span style={styles.value}>{rideau.largeur} cm</span>
+                {/* Row Content - 3 columns layout */}
+                <div style={styles.rideauGrid}>
+                  {/* Column 1: Dimensions */}
+                  <div style={styles.rideauColumn}>
+                    <div style={styles.columnTitle}>Dimensions</div>
+                    <div style={styles.dataRow}>
+                      <span style={styles.dataLabel}>Largeur:</span>
+                      <span style={styles.dataValue}>{rideau.largeur} cm</span>
+                    </div>
+                    <div style={styles.dataRow}>
+                      <span style={styles.dataLabel}>Hauteur:</span>
+                      <span style={styles.dataValue}>{rideau.hauteur} cm</span>
+                    </div>
                   </div>
-                  <div style={styles.col}>
-                    <span style={styles.label}>Hauteur</span>
-                    <span style={styles.value}>{rideau.hauteur} cm</span>
+
+                  {/* Column 2: Configuration */}
+                  <div style={styles.rideauColumn}>
+                    <div style={styles.columnTitle}>Configuration</div>
+                    <div style={styles.dataRow}>
+                      <span style={styles.dataLabel}>Confection:</span>
+                      <span style={styles.dataValue}>{rideau.type_confection}</span>
+                    </div>
+                    <div style={styles.dataRow}>
+                      <span style={styles.dataLabel}>Type:</span>
+                      <span style={styles.dataValue}>{rideau.type_rideau}</span>
+                    </div>
+                    <div style={styles.dataRow}>
+                      <span style={styles.dataLabel}>Tringles:</span>
+                      <span style={styles.dataValue}>{rideau.type_tringles}</span>
+                    </div>
                   </div>
-                  <div style={styles.col}>
-                    <span style={styles.label}>Confection</span>
-                    <span style={styles.value}>{rideau.type_confection}</span>
+
+                  {/* Column 3: Finitions */}
+                  <div style={styles.rideauColumn}>
+                    <div style={styles.columnTitle}>Finitions</div>
+                    <div style={styles.dataRow}>
+                      <span style={styles.dataLabel}>Ouverture:</span>
+                      <span style={styles.dataValue}>{rideau.type_ouverture}</span>
+                    </div>
+                    <div style={styles.dataRow}>
+                      <span style={styles.dataLabel}>Finition sol:</span>
+                      <span style={styles.dataValue}>{rideau.finition_au_sol}</span>
+                    </div>
+                    <div style={styles.dataRow}>
+                      <span style={styles.dataLabel}>Ourlet:</span>
+                      <span style={styles.dataValue}>{rideau.ourlet}</span>
+                    </div>
                   </div>
                 </div>
 
-                <div style={styles.row}>
-                  <div style={styles.col}>
-                    <span style={styles.label}>Tringles</span>
-                    <span style={styles.value}>{rideau.type_tringles}</span>
-                  </div>
-                  <div style={styles.col}>
-                    <span style={styles.label}>Type</span>
-                    <span style={styles.value}>{rideau.type_rideau}</span>
-                  </div>
-                  <div style={styles.col}>
-                    <span style={styles.label}>Ouverture</span>
-                    <span style={styles.value}>{rideau.type_ouverture}</span>
-                  </div>
-                </div>
-
-                <div style={styles.row}>
-                  <div style={styles.col}>
-                    <span style={styles.label}>Finition au sol</span>
-                    <span style={styles.value}>{rideau.finition_au_sol}</span>
-                  </div>
-                  <div style={styles.col}>
-                    <span style={styles.label}>Ourlet</span>
-                    <span style={styles.value}>{rideau.ourlet}</span>
-                  </div>
-                </div>
-
+                {/* Remarque - Full Width */}
                 {rideau.remarque_client && (
-                  <div style={styles.remarque}>
-                    <span style={styles.remarqueLabel}>Remarque :</span>
+                  <div style={styles.remarqueRow}>
+                    <span style={styles.remarqueIcon}>📝</span>
                     <span style={styles.remarqueText}>{rideau.remarque_client}</span>
                   </div>
                 )}
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       ))}
 
@@ -139,6 +145,8 @@ export const ClientReviewPrint = forwardRef(({ clientData, espaces }, ref) => {
         <span>{new Date().toLocaleString("fr-FR")}</span>
         <span style={styles.footerSep}>·</span>
         <span>{espaces.length} espace{espaces.length > 1 ? "s" : ""}</span>
+        <span style={styles.footerSep}>·</span>
+        <span>{espaces.reduce((acc, e) => acc + e.rideaux.length, 0)} rideaux</span>
       </div>
     </div>
   );
@@ -147,37 +155,37 @@ export const ClientReviewPrint = forwardRef(({ clientData, espaces }, ref) => {
 const styles = {
   container: {
     width: "794px",
-    padding: "48px 56px",
+    padding: "40px 48px",
     fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
     background: "#ffffff",
     color: "#000",
     margin: "0 auto",
     boxSizing: "border-box",
     minHeight: "1123px",
-    lineHeight: "1.5",
+    lineHeight: "1.4",
   },
 
-  /* HEADER */
+  /* COMPACT HEADER */
   header: {
-    marginBottom: "48px",
-    paddingBottom: "24px",
-    borderBottom: "1px solid #000",
+    marginBottom: "24px",
+    paddingBottom: "16px",
+    borderBottom: "2px solid #000",
   },
 
-  headerTop: {
+  headerContent: {
     display: "flex",
     justifyContent: "space-between",
-    alignItems: "flex-start",
+    alignItems: "center",
   },
 
   brandSection: {
     display: "flex",
     alignItems: "center",
-    gap: "16px",
+    gap: "12px",
   },
 
   logo: {
-    height: "40px",
+    height: "32px",
     width: "auto",
     objectFit: "contain",
   },
@@ -185,192 +193,242 @@ const styles = {
   brandInfo: {
     display: "flex",
     flexDirection: "column",
+    gap: "2px",
   },
 
   brandName: {
-    fontSize: "16px",
-    fontWeight: "600",
+    fontSize: "25px",
+    fontWeight: "700",
     letterSpacing: "0.5px",
   },
 
   brandTagline: {
-    fontSize: "12px",
+    fontSize: "10px",
     color: "#666",
-    fontWeight: "400",
+    fontWeight: "500",
   },
 
-  docInfo: {
+  headerRight: {
     textAlign: "right",
   },
 
   docTitle: {
-    fontSize: "20px",
-    fontWeight: "600",
-    marginBottom: "4px",
+    fontSize: "18px",
+    fontWeight: "700",
+    marginBottom: "2px",
   },
 
   docMeta: {
-    fontSize: "11px",
+    fontSize: "10px",
     color: "#666",
   },
 
-  /* SECTION */
-  section: {
-    marginBottom: "40px",
+  /* COMPACT CLIENT SECTION */
+  clientSection: {
+    marginBottom: "32px",
+    padding: "12px 16px",
+    background: "#f8f9fa",
+    border: "1px solid #e0e0e0",
   },
 
-  sectionTitle: {
-    fontSize: "11px",
+  clientRow: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexWrap: "wrap",
+    gap: "8px 20px",
+  },
+
+  clientField: {
+    display: "flex",
+    alignItems: "center",
+    gap: "6px",
+    flex: "0 0 auto",
+  },
+
+  clientLabel: {
+    fontSize: "9px",
+    color: "#666",
     fontWeight: "600",
     textTransform: "uppercase",
-    letterSpacing: "1px",
-    color: "#999",
-    marginBottom: "16px",
   },
 
-  /* CLIENT GRID */
-  clientGrid: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: "16px 24px",
-    paddingBottom: "32px",
-    borderBottom: "1px solid #e5e5e5",
-  },
-
-  field: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "4px",
-  },
-
-  fieldLabel: {
-    fontSize: "10px",
-    color: "#999",
-    fontWeight: "500",
-  },
-
-  fieldValue: {
-    fontSize: "14px",
-    fontWeight: "500",
+  clientValue: {
+    fontSize: "11px",
+    fontWeight: "600",
     color: "#000",
   },
 
-  /* ESPACE */
-  espaceTitle: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "baseline",
-    marginBottom: "20px",
-    paddingBottom: "8px",
-    borderBottom: "1px solid #000",
+  /* ESPACE SECTION - EXPANDED */
+  espaceSection: {
+    marginBottom: "32px",
+    pageBreakInside: "avoid",
   },
 
-  espaceTitleText: {
-    fontSize: "16px",
+  espaceHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "12px",
+    padding: "10px 16px",
+    background: "#000",
+    color: "#fff",
+  },
+
+  espaceHeaderLeft: {
+    display: "flex",
+    alignItems: "center",
+    gap: "12px",
+  },
+
+  espaceNumber: {
+    fontSize: "14px",
+    fontWeight: "700",
+    width: "28px",
+    height: "28px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    background: "#fff",
+    color: "#000",
+    borderRadius: "50%",
+  },
+
+  espaceName: {
+    fontSize: "15px",
     fontWeight: "600",
   },
 
   espaceCount: {
     fontSize: "11px",
-    color: "#666",
+    fontWeight: "600",
+    padding: "4px 12px",
+    background: "rgba(255,255,255,0.2)",
+    borderRadius: "12px",
   },
 
-  /* RIDEAU CARD */
-  rideauCard: {
-    marginBottom: "16px",
-    border: "1px solid #e5e5e5",
+  /* RIDEAUX TABLE */
+  rideauxTable: {
+    border: "1px solid #e0e0e0",
   },
 
-  rideauHeader: {
+  rideauRow: {
+    borderBottom: "1px solid #e0e0e0",
+  },
+
+  rideauRowHeader: {
     display: "flex",
     alignItems: "center",
     gap: "12px",
-    padding: "12px 16px",
-    borderBottom: "1px solid #e5e5e5",
-    background: "#fafafa",
+    padding: "10px 16px",
+    background: "#f8f9fa",
+    borderBottom: "1px solid #e0e0e0",
   },
 
-  rideauNumber: {
-    fontSize: "12px",
-    fontWeight: "600",
+  rideauIndex: {
+    fontSize: "11px",
+    fontWeight: "700",
     color: "#666",
+    minWidth: "30px",
   },
 
   rideauRef: {
     fontSize: "13px",
-    fontWeight: "600",
+    fontWeight: "700",
     flex: 1,
-  },
-
-  rideauAmpleur: {
-    fontSize: "12px",
-    fontWeight: "600",
-    padding: "2px 8px",
-    border: "1px solid #000",
-  },
-
-  rideauContent: {
-    padding: "16px",
-    display: "flex",
-    flexDirection: "column",
-    gap: "12px",
-  },
-
-  row: {
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    gap: "16px",
-  },
-
-  col: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "4px",
-  },
-
-  label: {
-    fontSize: "10px",
-    color: "#999",
-    fontWeight: "500",
-  },
-
-  value: {
-    fontSize: "12px",
-    fontWeight: "500",
     color: "#000",
   },
 
-  remarque: {
-    marginTop: "4px",
-    padding: "12px",
-    background: "#fffef0",
-    border: "1px solid #f0e68c",
+  rideauAmpleur: {
+    fontSize: "11px",
+    fontWeight: "700",
+    padding: "4px 10px",
+    background: "#000",
+    color: "#fff",
+    borderRadius: "4px",
+  },
+
+  /* RIDEAU GRID - 3 COLUMNS */
+  rideauGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(3, 1fr)",
+    gap: "0",
+    borderBottom: "1px solid #e0e0e0",
+  },
+
+  rideauColumn: {
+    padding: "12px 16px",
+    borderRight: "1px solid #e0e0e0",
     display: "flex",
+    flexDirection: "column",
     gap: "8px",
   },
 
-  remarqueLabel: {
+  "rideauColumn:last-child": {
+    borderRight: "none",
+  },
+
+  columnTitle: {
+    fontSize: "9px",
+    fontWeight: "700",
+    textTransform: "uppercase",
+    color: "#999",
+    letterSpacing: "0.5px",
+    marginBottom: "4px",
+  },
+
+  dataRow: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "baseline",
+    gap: "8px",
+  },
+
+  dataLabel: {
+    fontSize: "10px",
+    color: "#666",
+    fontWeight: "500",
+  },
+
+  dataValue: {
     fontSize: "11px",
     fontWeight: "600",
-    color: "#666",
+    color: "#000",
+    textAlign: "right",
+  },
+
+  /* REMARQUE ROW */
+  remarqueRow: {
+    display: "flex",
+    alignItems: "flex-start",
+    gap: "10px",
+    padding: "12px 16px",
+    background: "#fffef5",
+    borderTop: "2px solid #ffd700",
+  },
+
+  remarqueIcon: {
+    fontSize: "14px",
+    lineHeight: "1",
   },
 
   remarqueText: {
-    fontSize: "11px",
+    fontSize: "10px",
     color: "#333",
     flex: 1,
+    lineHeight: "1.5",
   },
 
   /* FOOTER */
   footer: {
-    marginTop: "64px",
+    marginTop: "auto",
     paddingTop: "16px",
-    borderTop: "1px solid #e5e5e5",
+    borderTop: "1px solid #e0e0e0",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     gap: "8px",
-    fontSize: "10px",
+    fontSize: "9px",
     color: "#999",
   },
 
@@ -378,4 +436,3 @@ const styles = {
     color: "#ccc",
   },
 };
-
