@@ -4,8 +4,14 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 
 export default function App() {
-  // Vérifie si un token existe dans localStorage
   const [isLogged, setIsLogged] = useState(!!localStorage.getItem("token"));
+
+  // Fonction logout à passer à Home
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setIsLogged(false); // <- mise à jour du state
+  };
 
   return (
     <BrowserRouter>
@@ -26,11 +32,11 @@ export default function App() {
         <Route
           path="/home"
           element={
-            isLogged ? <Home /> : <Navigate to="/" />
+            isLogged ? <Home onLogout={handleLogout} /> : <Navigate to="/" />
           }
         />
 
-        {/* Catch-all → redirige vers login */}
+        {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
