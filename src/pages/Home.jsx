@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { createClient, createRideau } from "../api";
-import {ClientReviewPrint} from "./ClientReviewPrint";
+import { ClientReviewPrint } from "./ClientReviewPrint";
 import html2pdf from "html2pdf.js";
 
 const OPTIONS_ESPACES = [
@@ -47,7 +47,7 @@ const OPTIONS_FINITION_SOL = [
 const OPTIONS_OURLER = ["5cm", "10cm", "15cm", "Bas plombé"];
 const OPTIONS_TYPE = ["Manuelle", "Motorisé"];
 
-export default function Home() {
+export default function Home({ onLogout }) {
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState([]);
   const [clientData, setClientData] = useState({
@@ -252,15 +252,41 @@ export default function Home() {
       <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-blue-100/40 via-transparent to-transparent"></div>
       <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-purple-100/30 via-transparent to-transparent"></div>
       <div className="fixed inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuOSIgbnVtT2N0YXZlcz0iNCIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNub2lzZSkiIG9wYWNpdHk9IjAuMDMiLz48L3N2Zz4=')] opacity-60"></div>
-      
+
       <div className="relative z-10 max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         {/* En-tête élégant */}
         <div className="text-center mb-16 animate-[fadeIn_0.8s_ease-out]">
-          <div className="inline-flex items-center gap-3 bg-white/80 backdrop-blur-xl border border-blue-200/50 px-6 py-3 rounded-full text-sm font-light text-blue-700 mb-8 shadow-lg">
+          {/* Badge utilisateur + logout intégré */}
+          <div className="inline-flex items-center gap-3 bg-white/80 backdrop-blur-xl border border-blue-200/50 px-6 py-3 rounded-full text-sm font-light text-blue-700 mb-4 shadow-lg">
             <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(59,130,246,0.5)]"></div>
             <span className="tracking-wide">{user.user_display_name}</span>
+
+            {/* Ligne verticale séparatrice */}
+            <div className="w-px h-5 bg-blue-200 mx-3"></div>
+
+            {/* Bouton logout */}
+            <button
+              onClick={onLogout}
+              className="flex items-center gap-1 text-blue-700 hover:text-blue-900 font-medium transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-9V7"
+                />
+              </svg>
+              Logout
+            </button>
           </div>
-          
+
           <h1 className="text-6xl md:text-7xl font-light text-gray-800 mb-4 tracking-tight">
             Nouveau <span className="text-blue-600 font-normal">Projet</span>
           </h1>
@@ -274,13 +300,19 @@ export default function Home() {
         <div className="mb-12 animate-[fadeIn_1s_ease-out_0.2s_both]">
           <div className="flex items-center justify-between max-w-2xl mx-auto relative">
             <div className="absolute top-1/2 left-0 right-0 h-px bg-gray-200 -translate-y-1/2"></div>
-            <div 
+            <div
               className="absolute top-1/2 left-0 h-px bg-gradient-to-r from-blue-400 to-purple-400 -translate-y-1/2 transition-all duration-700 ease-out shadow-[0_0_10px_rgba(59,130,246,0.3)]"
-              style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
+              style={{
+                width: `${((currentStep - 1) / (steps.length - 1)) * 100}%`,
+              }}
             ></div>
 
             {steps.map((step, idx) => (
-              <div key={step.id} className="relative flex flex-col items-center gap-4" style={{ animationDelay: `${idx * 0.1}s` }}>
+              <div
+                key={step.id}
+                className="relative flex flex-col items-center gap-4"
+                style={{ animationDelay: `${idx * 0.1}s` }}
+              >
                 <div
                   className={`w-14 h-14 rounded-full flex items-center justify-center text-lg font-light transition-all duration-500 border-2 ${
                     currentStep === step.id
@@ -311,7 +343,9 @@ export default function Home() {
             disabled={currentStep === 1}
             className="group px-6 py-2.5 bg-gray-50 border border-gray-200 text-gray-700 rounded-xl font-light tracking-wide hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 flex items-center gap-3 hover:gap-2"
           >
-            <span className="transition-transform duration-300 group-hover:-translate-x-1">←</span>
+            <span className="transition-transform duration-300 group-hover:-translate-x-1">
+              ←
+            </span>
             <span className="text-sm">Précédent</span>
           </button>
 
@@ -326,7 +360,9 @@ export default function Home() {
               className="group px-6 py-2.5 bg-blue-500 text-white rounded-xl font-medium tracking-wide hover:bg-blue-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 flex items-center gap-3 hover:gap-4 shadow-lg shadow-blue-500/30"
             >
               <span className="text-sm">Suivant</span>
-              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              <span className="transition-transform duration-300 group-hover:translate-x-1">
+                →
+              </span>
             </button>
           ) : (
             <button
@@ -336,9 +372,24 @@ export default function Home() {
             >
               {loading ? (
                 <>
-                  <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  <svg
+                    className="animate-spin h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
                   </svg>
                   <span className="text-sm">Création...</span>
                 </>
@@ -359,7 +410,9 @@ export default function Home() {
             }`}
           >
             <div className="flex items-center gap-4">
-              <span className="text-2xl">{message.includes("succès") ? "✓" : "⚠"}</span>
+              <span className="text-2xl">
+                {message.includes("succès") ? "✓" : "⚠"}
+              </span>
               <span className="font-light tracking-wide">{message}</span>
             </div>
           </div>
@@ -369,19 +422,39 @@ export default function Home() {
         {currentStep === 1 && (
           <div className="max-w-3xl mx-auto bg-white/80 backdrop-blur-xl border border-gray-200/50 rounded-3xl p-10 shadow-xl animate-[fadeIn_0.6s_ease-out]">
             <div className="mb-10">
-              <h2 className="text-3xl font-light text-gray-800 mb-2 tracking-tight">Informations Client</h2>
+              <h2 className="text-3xl font-light text-gray-800 mb-2 tracking-tight">
+                Informations Client
+              </h2>
               <div className="w-16 h-px bg-gradient-to-r from-blue-400/60 to-transparent mb-4"></div>
-              <p className="text-gray-600 font-light">Détails essentiels du projet</p>
+              <p className="text-gray-600 font-light">
+                Détails essentiels du projet
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { name: "client_name", label: "Nom du client", placeholder: "Jean Dupont" },
-                { name: "projet_name", label: "Nom du projet", placeholder: "Villa Moderne" },
+                {
+                  name: "client_name",
+                  label: "Nom du client",
+                  placeholder: "Jean Dupont",
+                },
+                {
+                  name: "projet_name",
+                  label: "Nom du projet",
+                  placeholder: "Villa Moderne",
+                },
                 { name: "ville", label: "Ville", placeholder: "Casablanca" },
-                { name: "contact_client", label: "Contact", placeholder: "+212 6XX XXX XXX" },
+                {
+                  name: "contact_client",
+                  label: "Contact",
+                  placeholder: "+212 6XX XXX XXX",
+                },
               ].map((field, idx) => (
-                <div key={field.name} className="group" style={{ animationDelay: `${idx * 0.1}s` }}>
+                <div
+                  key={field.name}
+                  className="group"
+                  style={{ animationDelay: `${idx * 0.1}s` }}
+                >
                   <label className="block text-xs font-light text-gray-600 mb-3 tracking-widest uppercase">
                     {field.label}
                   </label>
@@ -422,18 +495,26 @@ export default function Home() {
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3 flex-1 min-w-0">
-                          <span className={`text-xs font-medium px-2.5 py-1 rounded-lg ${
-                            activeEspaceIndex === index ? "bg-white/20 text-white" : "bg-white text-blue-600"
-                          }`}>
-                            {String(index + 1).padStart(2, '0')}
+                          <span
+                            className={`text-xs font-medium px-2.5 py-1 rounded-lg ${
+                              activeEspaceIndex === index
+                                ? "bg-white/20 text-white"
+                                : "bg-white text-blue-600"
+                            }`}
+                          >
+                            {String(index + 1).padStart(2, "0")}
                           </span>
                           <span className="truncate text-sm tracking-wide">
                             {espace.espace_name || "Sans nom"}
                           </span>
                         </div>
-                        <span className={`text-xs ml-2 ${
-                          activeEspaceIndex === index ? "text-white/70" : "text-gray-500"
-                        }`}>
+                        <span
+                          className={`text-xs ml-2 ${
+                            activeEspaceIndex === index
+                              ? "text-white/70"
+                              : "text-gray-500"
+                          }`}
+                        >
                           {espace.rideaux.length}
                         </span>
                       </div>
@@ -445,7 +526,9 @@ export default function Home() {
                   onClick={addEspace}
                   className="w-full bg-gray-50 border border-gray-200 text-gray-700 py-3.5 rounded-xl font-light tracking-wide hover:bg-gray-100 hover:border-blue-400 transition-all duration-300 flex items-center justify-center gap-2 group"
                 >
-                  <span className="text-blue-500 group-hover:scale-110 transition-transform duration-300">+</span>
+                  <span className="text-blue-500 group-hover:scale-110 transition-transform duration-300">
+                    +
+                  </span>
                   <span className="text-sm">Nouvel espace</span>
                 </button>
               </div>
@@ -458,7 +541,7 @@ export default function Home() {
                   <div className="flex items-center justify-between mb-8">
                     <h3 className="text-lg font-light text-gray-800 tracking-tight flex items-center gap-3">
                       <span className="text-xs bg-blue-100 text-blue-600 px-3 py-1 rounded-lg font-medium tracking-widest">
-                        ESPACE {String(activeEspaceIndex + 1).padStart(2, '0')}
+                        ESPACE {String(activeEspaceIndex + 1).padStart(2, "0")}
                       </span>
                     </h3>
                     <button
@@ -476,11 +559,17 @@ export default function Home() {
                     <select
                       value={espaces[activeEspaceIndex].espace_name}
                       onChange={(e) =>
-                        handleEspaceChange(activeEspaceIndex, "espace_name", e.target.value)
+                        handleEspaceChange(
+                          activeEspaceIndex,
+                          "espace_name",
+                          e.target.value,
+                        )
                       }
                       className="w-full px-4 py-3.5 bg-gray-50/80 border border-gray-200 rounded-xl text-gray-800 font-light focus:bg-white focus:border-blue-400 outline-none transition-all duration-300"
                     >
-                      <option value="" className="bg-white">Sélectionner...</option>
+                      <option value="" className="bg-white">
+                        Sélectionner...
+                      </option>
                       {OPTIONS_ESPACES.map((opt) => (
                         <option key={opt} value={opt} className="bg-white">
                           {opt}
@@ -496,42 +585,50 @@ export default function Home() {
                     </h4>
 
                     <div className="space-y-2 mb-4 max-h-64 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
-                      {espaces[activeEspaceIndex].rideaux.map((rideau, rIndex) => (
-                        <button
-                          key={rideau.id}
-                          onClick={() => selectRideau(rIndex)}
-                          className={`w-full text-left px-4 py-3 rounded-xl font-light transition-all duration-300 ${
-                            activeRideauIndex === rIndex
-                              ? "bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 border border-blue-300/50 shadow-md"
-                              : "bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200"
-                          }`}
-                        >
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3 flex-1 min-w-0">
-                              <span className={`text-xs font-medium px-2.5 py-0.5 rounded-lg ${
-                                activeRideauIndex === rIndex ? "bg-blue-200/50" : "bg-white"
-                              }`}>
-                                R{rIndex + 1}
-                              </span>
-                              <span className="truncate text-sm">
-                                {rideau.type_rideau || "Non configuré"}
-                              </span>
+                      {espaces[activeEspaceIndex].rideaux.map(
+                        (rideau, rIndex) => (
+                          <button
+                            key={rideau.id}
+                            onClick={() => selectRideau(rIndex)}
+                            className={`w-full text-left px-4 py-3 rounded-xl font-light transition-all duration-300 ${
+                              activeRideauIndex === rIndex
+                                ? "bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 border border-blue-300/50 shadow-md"
+                                : "bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200"
+                            }`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-3 flex-1 min-w-0">
+                                <span
+                                  className={`text-xs font-medium px-2.5 py-0.5 rounded-lg ${
+                                    activeRideauIndex === rIndex
+                                      ? "bg-blue-200/50"
+                                      : "bg-white"
+                                  }`}
+                                >
+                                  R{rIndex + 1}
+                                </span>
+                                <span className="truncate text-sm">
+                                  {rideau.type_rideau || "Non configuré"}
+                                </span>
+                              </div>
+                              {rideau.largeur && rideau.hauteur && (
+                                <span className="text-xs opacity-60 ml-2">
+                                  {rideau.largeur}×{rideau.hauteur}
+                                </span>
+                              )}
                             </div>
-                            {rideau.largeur && rideau.hauteur && (
-                              <span className="text-xs opacity-60 ml-2">
-                                {rideau.largeur}×{rideau.hauteur}
-                              </span>
-                            )}
-                          </div>
-                        </button>
-                      ))}
+                          </button>
+                        ),
+                      )}
                     </div>
 
                     <button
                       onClick={() => addRideau(activeEspaceIndex)}
                       className="w-full bg-gray-50 border border-gray-200 text-gray-700 py-3 rounded-xl font-light hover:bg-gray-100 hover:border-blue-400 hover:text-blue-600 transition-all duration-300 flex items-center justify-center gap-2 group"
                     >
-                      <span className="group-hover:scale-110 transition-transform duration-300">+</span>
+                      <span className="group-hover:scale-110 transition-transform duration-300">
+                        +
+                      </span>
                       <span className="text-sm">Ajouter rideau</span>
                     </button>
                   </div>
@@ -562,12 +659,14 @@ export default function Home() {
                   <div className="flex items-center justify-between mb-8">
                     <h3 className="text-lg font-light text-gray-800 tracking-tight flex items-center gap-3">
                       <span className="text-xs bg-purple-100 text-purple-600 px-3 py-1 rounded-lg font-medium tracking-widest">
-                        RIDEAU {String(activeRideauIndex + 1).padStart(2, '0')}
+                        RIDEAU {String(activeRideauIndex + 1).padStart(2, "0")}
                       </span>
                     </h3>
                     {espaces[activeEspaceIndex].rideaux.length > 1 && (
                       <button
-                        onClick={() => removeRideau(activeEspaceIndex, activeRideauIndex)}
+                        onClick={() =>
+                          removeRideau(activeEspaceIndex, activeRideauIndex)
+                        }
                         className="text-red-500/70 hover:text-red-600 text-sm font-light px-3 py-1.5 hover:bg-red-50 rounded-lg transition-all duration-300"
                       >
                         Supprimer
@@ -585,9 +684,18 @@ export default function Home() {
                         <input
                           type="number"
                           placeholder="250"
-                          value={espaces[activeEspaceIndex].rideaux[activeRideauIndex].largeur}
+                          value={
+                            espaces[activeEspaceIndex].rideaux[
+                              activeRideauIndex
+                            ].largeur
+                          }
                           onChange={(e) =>
-                            handleRideauChange(activeEspaceIndex, activeRideauIndex, "largeur", e.target.value)
+                            handleRideauChange(
+                              activeEspaceIndex,
+                              activeRideauIndex,
+                              "largeur",
+                              e.target.value,
+                            )
                           }
                           className="w-full px-4 py-3 bg-gray-50/80 border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 font-light focus:bg-white focus:border-blue-400 outline-none transition-all duration-300"
                         />
@@ -599,9 +707,18 @@ export default function Home() {
                         <input
                           type="number"
                           placeholder="280"
-                          value={espaces[activeEspaceIndex].rideaux[activeRideauIndex].hauteur}
+                          value={
+                            espaces[activeEspaceIndex].rideaux[
+                              activeRideauIndex
+                            ].hauteur
+                          }
                           onChange={(e) =>
-                            handleRideauChange(activeEspaceIndex, activeRideauIndex, "hauteur", e.target.value)
+                            handleRideauChange(
+                              activeEspaceIndex,
+                              activeRideauIndex,
+                              "hauteur",
+                              e.target.value,
+                            )
                           }
                           className="w-full px-4 py-3 bg-gray-50/80 border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 font-light focus:bg-white focus:border-blue-400 outline-none transition-all duration-300"
                         />
@@ -610,27 +727,70 @@ export default function Home() {
 
                     {/* Sélections */}
                     {[
-                      { field: "type_tringles", label: "Type de tringles", options: OPTIONS_TRINGLES },
-                      { field: "type_rideau", label: "Type de rideau", options: OPTIONS_TYPE_RIDEAU },
-                      { field: "type_ouverture", label: "Ouverture", options: OPTIONS_OUVERTURE },
-                      { field: "type_confection", label: "Confection", options: OPTIONS_CONFECTION },
-                      { field: "ampleur", label: "Ampleur", options: OPTIONS_AMPLEUR },
-                      { field: "finition_au_sol", label: "Finition sol", options: OPTIONS_FINITION_SOL },
-                      { field: "ref_tissu", label: "Référence tissu", options: OPTIONS_TYPE },
-                      { field: "ourlet", label: "Ourlet", options: OPTIONS_OURLER },
+                      {
+                        field: "type_tringles",
+                        label: "Type de tringles",
+                        options: OPTIONS_TRINGLES,
+                      },
+                      {
+                        field: "type_rideau",
+                        label: "Type de rideau",
+                        options: OPTIONS_TYPE_RIDEAU,
+                      },
+                      {
+                        field: "type_ouverture",
+                        label: "Ouverture",
+                        options: OPTIONS_OUVERTURE,
+                      },
+                      {
+                        field: "type_confection",
+                        label: "Confection",
+                        options: OPTIONS_CONFECTION,
+                      },
+                      {
+                        field: "ampleur",
+                        label: "Ampleur",
+                        options: OPTIONS_AMPLEUR,
+                      },
+                      {
+                        field: "finition_au_sol",
+                        label: "Finition sol",
+                        options: OPTIONS_FINITION_SOL,
+                      },
+                      {
+                        field: "ref_tissu",
+                        label: "Référence tissu",
+                        options: OPTIONS_TYPE,
+                      },
+                      {
+                        field: "ourlet",
+                        label: "Ourlet",
+                        options: OPTIONS_OURLER,
+                      },
                     ].map((item) => (
                       <div key={item.field}>
                         <label className="block text-xs font-light text-gray-600 mb-2 tracking-widest uppercase">
                           {item.label}
                         </label>
                         <select
-                          value={espaces[activeEspaceIndex].rideaux[activeRideauIndex][item.field]}
+                          value={
+                            espaces[activeEspaceIndex].rideaux[
+                              activeRideauIndex
+                            ][item.field]
+                          }
                           onChange={(e) =>
-                            handleRideauChange(activeEspaceIndex, activeRideauIndex, item.field, e.target.value)
+                            handleRideauChange(
+                              activeEspaceIndex,
+                              activeRideauIndex,
+                              item.field,
+                              e.target.value,
+                            )
                           }
                           className="w-full px-4 py-3 bg-gray-50/80 border border-gray-200 rounded-xl text-gray-800 font-light focus:bg-white focus:border-blue-400 outline-none transition-all duration-300"
                         >
-                          <option value="" className="bg-white">Sélectionner...</option>
+                          <option value="" className="bg-white">
+                            Sélectionner...
+                          </option>
                           {item.options.map((opt) => (
                             <option key={opt} value={opt} className="bg-white">
                               {opt}
@@ -646,9 +806,17 @@ export default function Home() {
                       </label>
                       <textarea
                         placeholder="Notes spéciales..."
-                        value={espaces[activeEspaceIndex].rideaux[activeRideauIndex].remarque_client}
+                        value={
+                          espaces[activeEspaceIndex].rideaux[activeRideauIndex]
+                            .remarque_client
+                        }
                         onChange={(e) =>
-                          handleRideauChange(activeEspaceIndex, activeRideauIndex, "remarque_client", e.target.value)
+                          handleRideauChange(
+                            activeEspaceIndex,
+                            activeRideauIndex,
+                            "remarque_client",
+                            e.target.value,
+                          )
                         }
                         rows={3}
                         className="w-full px-4 py-3 bg-gray-50/80 border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 font-light focus:bg-white focus:border-blue-400 outline-none transition-all duration-300 resize-none"
@@ -717,16 +885,16 @@ export default function Home() {
             transform: translateY(0);
           }
         }
-        
+
         .scrollbar-thin::-webkit-scrollbar {
           width: 6px;
         }
-        
+
         .scrollbar-thumb-gray-300::-webkit-scrollbar-thumb {
           background-color: rgba(209, 213, 219, 0.6);
           border-radius: 3px;
         }
-        
+
         .scrollbar-track-transparent::-webkit-scrollbar-track {
           background: transparent;
         }
