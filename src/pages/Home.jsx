@@ -288,7 +288,7 @@ export default function Home({ onLogout }) {
           </div>
 
           <h1 className="text-6xl md:text-7xl font-light text-gray-800 mb-4 tracking-tight">
-            Nouveau <span className="text-blue-600 font-normal">Projet</span>
+            Prise de <span className="text-blue-600 font-normal">Mesure</span>
           </h1>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-blue-400/60 to-transparent mx-auto mb-6"></div>
           <p className="text-gray-600 text-lg font-light tracking-wide">
@@ -902,3 +902,4 @@ export default function Home({ onLogout }) {
     </div>
   );
 }
+
