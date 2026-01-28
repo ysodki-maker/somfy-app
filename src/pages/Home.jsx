@@ -171,7 +171,7 @@ export default function Home({ onLogout }) {
   const prevStep = () => currentStep > 1 && setCurrentStep(currentStep - 1);
 
   const handleSubmitAll = async () => {
-    setMessage("");
+    /*setMessage("");
     setLoading(true);
 
     try {
@@ -207,7 +207,7 @@ export default function Home({ onLogout }) {
       });
       setEspaces([]);
       setCurrentStep(1);
-      setCompletedSteps([]);
+      setCompletedSteps([]);*/
       handleDownloadPDF();
     } catch (err) {
       console.error(err);
@@ -902,3 +902,4 @@ export default function Home({ onLogout }) {
     </div>
   );
 }
+
