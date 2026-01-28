@@ -858,15 +858,6 @@ export default function Home({ onLogout }) {
         {/* Étape 3 */}
         {currentStep === 3 && (
           <div className="bg-white/80 backdrop-blur-xl border border-gray-200/50 rounded-3xl p-8 shadow-xl animate-[fadeIn_0.6s_ease-out]">
-            <div className="flex justify-end gap-4 mb-8">
-              <button
-                onClick={handleDownloadPDF}
-                className="bg-gray-50 border border-gray-200 text-gray-700 px-6 py-3 rounded-xl font-light tracking-wide hover:bg-gray-100 hover:border-blue-400 transition-all duration-300 flex items-center gap-3"
-              >
-                <span className="text-sm">Générer PDF</span>
-              </button>
-            </div>
-
             <div ref={printRef}>
               <ClientReviewPrint clientData={clientData} espaces={espaces} />
             </div>
@@ -902,4 +893,5 @@ export default function Home({ onLogout }) {
     </div>
   );
 }
+
 
