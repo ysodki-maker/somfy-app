@@ -107,9 +107,9 @@ export default function Home({ onLogout }) {
       ourlet: "",
       remarque_client: "",
     };
-    newEspaces[espaceIndex].rideaux.push(newRideau);
+    newEspaces[espaceIndex]?.rideaux.push(newRideau);
     setEspaces(newEspaces);
-    setActiveRideauIndex(newEspaces[espaceIndex].rideaux.length - 1);
+    setActiveRideauIndex(newEspaces[espaceIndex]?.rideaux.length - 1);
   };
 
   const handleEspaceChange = (index, field, value) => {
@@ -198,7 +198,7 @@ export default function Home({ onLogout }) {
         }
       }
 
-      setMessage("✅ Client et espaces créés avec succès !");
+      // setMessage("✅ Client et espaces créés avec succès !");
       setClientData({
         client_name: "",
         projet_name: "",
@@ -208,6 +208,8 @@ export default function Home({ onLogout }) {
       setEspaces([]);
       setCurrentStep(1);
       setCompletedSteps([]);
+      setActiveEspaceIndex(null);
+      setActiveRideauIndex(null);
       handleDownloadPDF();
     } catch (err) {
       console.error(err);
@@ -245,7 +247,7 @@ export default function Home({ onLogout }) {
     };
     html2pdf().set(options).from(element).save();
   };
-  
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 relative overflow-hidden">
       {/* Fond élégant avec motifs subtils */}
@@ -866,6 +868,7 @@ export default function Home({ onLogout }) {
                 <span className="text-sm">Générer PDF</span>
               </button>
             </div>
+
             <div ref={printRef}>
               <ClientReviewPrint clientData={clientData} espaces={espaces} />
             </div>
@@ -901,7 +904,3 @@ export default function Home({ onLogout }) {
     </div>
   );
 }
-
-
-
-
