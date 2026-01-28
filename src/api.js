@@ -24,7 +24,7 @@ export async function loginUser(username, password) {
 }
 
 export async function createClient(token, clientData) {
-    const response = await fetch(`https://crm.magicwalls.ma/wp-json/information-clients/v1/items`, {
+    const response = await fetch(`${API_URL}/information-clients/v1/items`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -63,3 +63,4 @@ export async function createRideau(token, rideauData) {
   return data;
 
 }
+
