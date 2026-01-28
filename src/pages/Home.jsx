@@ -177,7 +177,7 @@ export default function Home({ onLogout }) {
     try {
       if (!validateStep1()) {
         setMessage("Veuillez remplir tous les champs du client.");
-        setLoading(false);
+        setLoading(false); 
         return;
       }
 
@@ -557,7 +557,7 @@ export default function Home({ onLogout }) {
                       Type d'espace
                     </label>
                     <select
-                      value={espaces[activeEspaceIndex].espace_name}
+                      value={espaces[activeEspaceIndex]?.espace_name}
                       onChange={(e) =>
                         handleEspaceChange(
                           activeEspaceIndex,
@@ -581,11 +581,11 @@ export default function Home({ onLogout }) {
                   <div className="border-t border-gray-200 pt-8">
                     <h4 className="text-sm font-light text-gray-600 mb-4 tracking-widest uppercase flex items-center gap-2">
                       <div className="w-1 h-1 bg-blue-500 rounded-full"></div>
-                      Rideaux ({espaces[activeEspaceIndex].rideaux.length})
+                      Rideaux ({espaces[activeEspaceIndex]?.rideaux.length})
                     </h4>
 
                     <div className="space-y-2 mb-4 max-h-64 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
-                      {espaces[activeEspaceIndex].rideaux.map(
+                      {espaces[activeEspaceIndex]?.rideaux.map(
                         (rideau, rIndex) => (
                           <button
                             key={rideau.id}
@@ -662,7 +662,7 @@ export default function Home({ onLogout }) {
                         RIDEAU {String(activeRideauIndex + 1).padStart(2, "0")}
                       </span>
                     </h3>
-                    {espaces[activeEspaceIndex].rideaux.length > 1 && (
+                    {espaces[activeEspaceIndex]?.rideaux.length > 1 && (
                       <button
                         onClick={() =>
                           removeRideau(activeEspaceIndex, activeRideauIndex)
@@ -685,7 +685,7 @@ export default function Home({ onLogout }) {
                           type="number"
                           placeholder="250"
                           value={
-                            espaces[activeEspaceIndex].rideaux[
+                            espaces[activeEspaceIndex]?.rideaux[
                               activeRideauIndex
                             ].largeur
                           }
@@ -708,7 +708,7 @@ export default function Home({ onLogout }) {
                           type="number"
                           placeholder="280"
                           value={
-                            espaces[activeEspaceIndex].rideaux[
+                            espaces[activeEspaceIndex]?.rideaux[
                               activeRideauIndex
                             ].hauteur
                           }
@@ -774,7 +774,7 @@ export default function Home({ onLogout }) {
                         </label>
                         <select
                           value={
-                            espaces[activeEspaceIndex].rideaux[
+                            espaces[activeEspaceIndex]?.rideaux[
                               activeRideauIndex
                             ][item.field]
                           }
@@ -807,7 +807,7 @@ export default function Home({ onLogout }) {
                       <textarea
                         placeholder="Notes spéciales..."
                         value={
-                          espaces[activeEspaceIndex].rideaux[activeRideauIndex]
+                          espaces[activeEspaceIndex]?.rideaux[activeRideauIndex]
                             .remarque_client
                         }
                         onChange={(e) =>
@@ -902,4 +902,3 @@ export default function Home({ onLogout }) {
     </div>
   );
 }
-
