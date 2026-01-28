@@ -207,14 +207,15 @@ export default function Home({ onLogout }) {
       });
       setEspaces([]);
       setCurrentStep(1);
-      setCompletedSteps([]);*/
-      handleDownloadPDF();
+      setCompletedSteps([]);
+      
     } catch (err) {
       console.error(err);
       setMessage("❌ " + (err.message || "Erreur lors de l'envoi."));
     } finally {
       setLoading(false);
-    }
+    }*/
+    handleDownloadPDF();
   };
 
   const printRef = useRef();
@@ -245,7 +246,7 @@ export default function Home({ onLogout }) {
     };
     html2pdf().set(options).from(element).save();
   };
-
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 relative overflow-hidden">
       {/* Fond élégant avec motifs subtils */}
@@ -893,5 +894,6 @@ export default function Home({ onLogout }) {
     </div>
   );
 }
+
 
 
