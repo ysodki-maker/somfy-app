@@ -1,6 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 
-const API_URL = "https://crm.magicwalls.ma/wp-json";
+const API_URL = "https://crmbackup.cosinus.ma/wp-json";
 
 export async function loginUser(username, password) {
     const response = await fetch(`${API_URL}/jwt-auth/v1/token`, {
@@ -61,4 +61,5 @@ export async function createRideau(token, rideauData) {
   }
 
   return data;
+
 }
